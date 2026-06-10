@@ -10,13 +10,28 @@ font-family:Arial;
 background:#fff5f8;
 margin:0;
 padding:0;
-text-align:center;
 }
 
-header{
-background:pink;
-padding:20px;
-color:white;
+.header{
+background:black;
+color:gold;
+padding:15px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+.logo{
+font-size:28px;
+font-weight:bold;
+}
+
+.cart{
+background:white;
+color:black;
+padding:10px;
+border-radius:10px;
+font-weight:bold;
 }
 
 .product{
@@ -24,90 +39,126 @@ background:white;
 margin:20px;
 padding:15px;
 border-radius:10px;
+text-align:center;
 box-shadow:0 0 10px lightgray;
 }
 
-img{
+.product img{
 width:250px;
-max-width:90%;
 border-radius:10px;
-}
-
-button{
-background:green;
-color:white;
-border:none;
-padding:10px 20px;
-border-radius:5px;
 cursor:pointer;
 }
 
-#cart{
-background:black;
+.qty{
+font-size:22px;
+margin:10px;
+}
+
+.qty button{
+padding:8px 15px;
+font-size:18px;
+}
+
+.whatsapp{
+background:green;
 color:white;
-padding:15px;
-margin:20px;
-border-radius:10px;
+padding:12px;
+border:none;
+border-radius:8px;
+font-size:18px;
+margin-top:20px;
 }
 </style>
 </head>
 
 <body>
 
-<header>
-<h1>Eska Jewellery</h1>
-<p>Artificial Jewellery Collection</p>
-</header>
+<div class="header">
+<div class="logo">💎 Eska Jewellery</div>
+<div class="cart">🛒 <span id="cartCount">0</span></div>
+</div>
 
 <div class="product">
-<img src="bracelets.jpeg">
+<img src="bracelets.jpeg" onclick="window.open('bracelets.jpeg')">
 <h2>Bracelet</h2>
-<p>Price: ₹30</p>
-<button onclick="addToCart('Bracelet ₹30')">Add To Cart</button>
+<p>₹30</p>
+
+<div class="qty">
+<button onclick="changeQty('bracelet',-1)">➖</button>
+<span id="bracelet">0</span>
+<button onclick="changeQty('bracelet',1)">➕</button>
+</div>
 </div>
 
 <div class="product">
-<img src="mobile charms.jpeg">
+<img src="mobile charms.jpeg" onclick="window.open('mobile charms.jpeg')">
 <h2>Mobile Charms</h2>
-<p>Price: ₹80</p>
-<button onclick="addToCart('Mobile Charms ₹80')">Add To Cart</button>
-</div>
+<p>₹80</p>
 
-<div class="product">
-<img src="anti-tarnish earings.jpeg">
+<div class="qty">
+<button onclick="changeQty('charms',-1)">➖</button>
+<span id="charms">0</span>
+<button onclick="changeQty('charms',1)">➕</button>
+</div>
+</div><div class="product">
+<img src="anti-tarnish earings.jpeg" onclick="window.open('anti-tarnish earings.jpeg')">
 <h2>Anti-Tarnish Earrings</h2>
-<p>Price: ₹80</p>
-<button onclick="addToCart('Anti-Tarnish Earrings ₹80')">Add To Cart</button>
+<p>₹80</p>
+
+<div class="qty">
+<button onclick="changeQty('earrings',-1)">➖</button>
+<span id="earrings">0</span>
+<button onclick="changeQty('earrings',1)">➕</button>
+</div>
 </div>
 
-<div id="cart">
-<h2>Cart</h2>
-<p id="items">No items selected</p>
-
-<button onclick="orderNow()">
+<center>
+<button class="whatsapp" onclick="orderNow()">
 Order On WhatsApp
 </button>
-</div>
+</center>
 
 <script>
-let cart=[];
+let bracelet=0;
+let charms=0;
+let earrings=0;
 
-function addToCart(item){
-cart.push(item);
-document.getElementById("items").innerHTML=cart.join("<br>");
+function changeQty(item,value){
+
+if(item=="bracelet"){
+bracelet=Math.max(0,bracelet+value);
+document.getElementById("bracelet").innerText=bracelet;
+}
+
+if(item=="charms"){
+charms=Math.max(0,charms+value);
+document.getElementById("charms").innerText=charms;
+}
+
+if(item=="earrings"){
+earrings=Math.max(0,earrings+value);
+document.getElementById("earrings").innerText=earrings;
+}
+
+document.getElementById("cartCount").innerText=
+bracelet+charms+earrings;
 }
 
 function orderNow(){
-if(cart.length===0){
-alert("Please select a product");
-return;
-}
 
-let message="Hello Eska Jewellery,%0A%0AI want to order:%0A"+cart.join("%0A");
+let msg="Hello Eska Jewellery%0A%0A";
+
+if(bracelet>0)
+msg+="Bracelet x"+bracelet+"%0A";
+
+if(charms>0)
+msg+="Mobile Charms x"+charms+"%0A";
+
+if(earrings>0)
+msg+="Anti-Tarnish Earrings x"+earrings+"%0A";
 
 window.open(
-"https://wa.me/917039603907?text="+message,
-"_blank"
+"https://wa.me/917039603907?text="+msg
 );
 }
 </script>
