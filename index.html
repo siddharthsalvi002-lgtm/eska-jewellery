@@ -2,40 +2,52 @@
 <html>
 <head>
 <title>Eska Jewellery</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
 <style>
 body{
-font-family: Arial, sans-serif;
+font-family:Arial;
+background:#fff5f8;
 margin:0;
 padding:0;
-background:#f8f8f8;
 text-align:center;
 }
 
 header{
-background:black;
-color:gold;
-padding:30px;
-}
-
-section{
+background:pink;
 padding:20px;
+color:white;
 }
 
-.btn{
-display:inline-block;
-padding:12px 20px;
+.product{
+background:white;
+margin:20px;
+padding:15px;
+border-radius:10px;
+box-shadow:0 0 10px lightgray;
+}
+
+img{
+width:250px;
+max-width:90%;
+border-radius:10px;
+}
+
+button{
 background:green;
 color:white;
-text-decoration:none;
+border:none;
+padding:10px 20px;
 border-radius:5px;
-font-size:18px;
+cursor:pointer;
 }
 
-footer{
+#cart{
 background:black;
 color:white;
 padding:15px;
-margin-top:20px;
+margin:20px;
+border-radius:10px;
 }
 </style>
 </head>
@@ -43,29 +55,62 @@ margin-top:20px;
 <body>
 
 <header>
-<h1>💎 Eska Jewellery 💎</h1>
-<p>Beautiful Artificial Jewellery Collection</p>
+<h1>Eska Jewellery</h1>
+<p>Artificial Jewellery Collection</p>
 </header>
 
-<section>
-<h2>Welcome</h2>
-<p>Stylish and affordable artificial jewellery for every occasion.</p>
+<div class="product">
+<img src="bracelets.jpeg">
+<h2>Bracelet</h2>
+<p>Price: ₹30</p>
+<button onclick="addToCart('Bracelet ₹30')">Add To Cart</button>
+</div>
 
-<h3>📍 Address</h3>
-<p>Jari Mari, Kurla Andheri Road,<br>
-Kurla West, Mumbai - 400072</p>
+<div class="product">
+<img src="mobile charms.jpeg">
+<h2>Mobile Charms</h2>
+<p>Price: ₹80</p>
+<button onclick="addToCart('Mobile Charms ₹80')">Add To Cart</button>
+</div>
 
-<h3>📞 Contact</h3>
-<p>7039603907</p>
+<div class="product">
+<img src="anti-tarnish earings.jpeg">
+<h2>Anti-Tarnish Earrings</h2>
+<p>Price: ₹80</p>
+<button onclick="addToCart('Anti-Tarnish Earrings ₹80')">Add To Cart</button>
+</div>
 
-<a class="btn" href="https://wa.me/917039603907">
-Chat on WhatsApp
-</a>
-</section>
+<div id="cart">
+<h2>Cart</h2>
+<p id="items">No items selected</p>
 
-<footer>
-© 2026 Eska Jewellery. All Rights Reserved.
-</footer>
+<button onclick="orderNow()">
+Order On WhatsApp
+</button>
+</div>
+
+<script>
+let cart=[];
+
+function addToCart(item){
+cart.push(item);
+document.getElementById("items").innerHTML=cart.join("<br>");
+}
+
+function orderNow(){
+if(cart.length===0){
+alert("Please select a product");
+return;
+}
+
+let message="Hello Eska Jewellery,%0A%0AI want to order:%0A"+cart.join("%0A");
+
+window.open(
+"https://wa.me/917039603907?text="+message,
+"_blank"
+);
+}
+</script>
 
 </body>
 </html>
