@@ -6,67 +6,112 @@
 
 <style>
 body{
-font-family:Arial;
-background:#fff5f8;
 margin:0;
-padding:0;
+font-family:Arial,sans-serif;
+background:#f8f8f8;
 }
 
 .header{
 background:black;
-color:gold;
+color:#d4af37;
 padding:15px;
 display:flex;
 justify-content:space-between;
 align-items:center;
+position:sticky;
+top:0;
 }
 
 .logo{
 font-size:28px;
 font-weight:bold;
+letter-spacing:3px;
+font-family:Georgia,serif;
 }
 
-.cart{
+.cartBtn{
 background:white;
 color:black;
 padding:10px;
 border-radius:10px;
 font-weight:bold;
+cursor:pointer;
 }
 
 .product{
 background:white;
-margin:20px;
+margin:15px;
 padding:15px;
-border-radius:10px;
+border-radius:12px;
 text-align:center;
 box-shadow:0 0 10px lightgray;
 }
 
 .product img{
-width:250px;
+width:220px;
 border-radius:10px;
 cursor:pointer;
 }
 
-.qty{
-font-size:22px;
-margin:10px;
-}
-
-.qty button{
-padding:8px 15px;
-font-size:18px;
-}
-
-.whatsapp{
-background:green;
+.buyBtn{
+background:black;
 color:white;
-padding:12px;
+padding:10px 20px;
 border:none;
 border-radius:8px;
+margin-top:10px;
+}
+
+.qtyBox{
+display:none;
+margin-top:10px;
+}
+
+.qtyBox button{
+padding:8px 15px;
 font-size:18px;
-margin-top:20px;
+}.cartPage,
+.addressPage,
+.whatsappPage{
+display:none;
+padding:20px;
+}
+
+input,textarea{
+width:95%;
+padding:12px;
+margin:10px 0;
+border:1px solid #ccc;
+border-radius:8px;
+}
+
+.bigBtn{
+width:100%;
+padding:15px;
+font-size:18px;
+font-weight:bold;
+background:black;
+color:white;
+border:none;
+border-radius:10px;
+margin-top:15px;
+}
+
+.zoomImg{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.9);
+display:none;
+justify-content:center;
+align-items:center;
+}
+
+.zoomImg img{
+width:90%;
+max-width:500px;
 }
 </style>
 </head>
@@ -74,93 +119,266 @@ margin-top:20px;
 <body>
 
 <div class="header">
-<div class="logo">💎 Eska Jewellery</div>
-<div class="cart">🛒 <span id="cartCount">0</span></div>
+<div class="logo">ESKA JEWELLERY</div>
+<div class="cartBtn" onclick="openCart()">
+🛒 Cart (<span id="cartCount">0</span>)
+</div>
 </div>
 
 <div class="product">
-<img src="bracelets.jpeg" onclick="window.open('bracelets.jpeg')">
+<h2>Customisation Jewellery</h2>
+<p>Custom Design Available</p>
+
+<button class="buyBtn"
+onclick="window.open('https://wa.me/917039603907')">
+Contact On WhatsApp
+</button>
+</div>
+
+<div id="productsPage"><div class="product">
+
+<img src="bracelets.jpeg"
+onclick="zoomImage('bracelets.jpeg')">
+
 <h2>Bracelet</h2>
+
 <p>₹30</p>
 
-<div class="qty">
-<button onclick="changeQty('bracelet',-1)">➖</button>
+<button class="buyBtn"
+onclick="showQty('braceletQty')">
+Purchase
+</button>
+
+<div class="qtyBox" id="braceletQty">
+
+<button onclick="changeQty('bracelet',-1)">-</button>
+
 <span id="bracelet">0</span>
-<button onclick="changeQty('bracelet',1)">➕</button>
+
+<button onclick="changeQty('bracelet',1)">+</button>
+
 </div>
+
 </div>
 
 <div class="product">
-<img src="mobile charms.jpeg" onclick="window.open('mobile charms.jpeg')">
+
+<img src="mobile charms.jpeg"
+onclick="zoomImage('mobile charms.jpeg')">
+
 <h2>Mobile Charms</h2>
+
 <p>₹80</p>
 
-<div class="qty">
-<button onclick="changeQty('charms',-1)">➖</button>
+<button class="buyBtn"
+onclick="showQty('charmsQty')">
+Purchase
+</button>
+
+<div class="qtyBox" id="charmsQty">
+
+<button onclick="changeQty('charms',-1)">-</button>
+
 <span id="charms">0</span>
-<button onclick="changeQty('charms',1)">➕</button>
+
+<button onclick="changeQty('charms',1)">+</button>
+
 </div>
-</div><div class="product">
-<img src="anti-tarnish earings.jpeg" onclick="window.open('anti-tarnish earings.jpeg')">
+
+</div>
+
+<div class="product">
+
+<img src="anti-tarnish earings.jpeg"
+onclick="zoomImage('anti-tarnish earings.jpeg')">
+
 <h2>Anti-Tarnish Earrings</h2>
+
 <p>₹80</p>
 
-<div class="qty">
-<button onclick="changeQty('earrings',-1)">➖</button>
+<button class="buyBtn"
+onclick="showQty('earringsQty')">
+Purchase
+</button>
+
+<div class="qtyBox" id="earringsQty">
+
+<button onclick="changeQty('earrings',-1)">-</button>
+
 <span id="earrings">0</span>
-<button onclick="changeQty('earrings',1)">➕</button>
-</div>
+
+<button onclick="changeQty('earrings',1)">+</button>
+
 </div>
 
-<center>
-<button class="whatsapp" onclick="orderNow()">
+</div>
+
+</div>
+
+<div class="cartPage" id="cartPage">
+
+<h2>Your Cart</h2>
+
+<div id="cartItems"></div>
+
+<button class="bigBtn"
+onclick="openAddressPage()">
+Place Order
+</button>
+
+</div><div class="addressPage" id="addressPage">
+
+<h2>Delivery Address</h2>
+
+<input type="text"
+id="customerName"
+placeholder="Full Name">
+
+<input type="text"
+id="customerMobile"
+placeholder="Mobile Number">
+
+<textarea
+id="customerAddress"
+placeholder="Full Address">
+</textarea>
+
+<button class="bigBtn"
+onclick="openWhatsappPage()">
+Confirm Address
+</button>
+
+</div>
+
+<div class="whatsappPage" id="whatsappPage">
+
+<h2>Ready To Order</h2>
+
+<button class="bigBtn"
+onclick="sendWhatsappOrder()">
 Order On WhatsApp
 </button>
-</center>
+
+</div>
+
+<div class="zoomImg" id="zoomBox"
+onclick="closeZoom()">
+
+<img id="zoomPhoto">
+
+</div>
 
 <script>
+
 let bracelet=0;
 let charms=0;
 let earrings=0;
 
-function changeQty(item,value){
+function showQty(id){
+document.getElementById(id).style.display="block";
+}
+
+function changeQty(item,val){
 
 if(item=="bracelet"){
-bracelet=Math.max(0,bracelet+value);
-document.getElementById("bracelet").innerText=bracelet;
+bracelet=Math.max(0,
+Math.min(20,bracelet+val));
+document.getElementById("bracelet").innerText=
+bracelet;
 }
 
 if(item=="charms"){
-charms=Math.max(0,charms+value);
-document.getElementById("charms").innerText=charms;
+charms=Math.max(0,
+Math.min(20,charms+val));
+document.getElementById("charms").innerText=
+charms;
 }
 
 if(item=="earrings"){
-earrings=Math.max(0,earrings+value);
-document.getElementById("earrings").innerText=earrings;
+earrings=Math.max(0,
+Math.min(20,earrings+val));
+document.getElementById("earrings").innerText=
+earrings;
 }
 
 document.getElementById("cartCount").innerText=
 bracelet+charms+earrings;
+
 }
 
-function orderNow(){
+function openCart(){
 
-let msg="Hello Eska Jewellery%0A%0A";
+document.getElementById("productsPage").style.display="none";
 
-if(bracelet>0)
-msg+="Bracelet x"+bracelet+"%0A";
+document.getElementById("cartPage").style.display="block";
 
-if(charms>0)
-msg+="Mobile Charms x"+charms+"%0A";
+document.getElementById("cartItems").innerHTML=
 
-if(earrings>0)
-msg+="Anti-Tarnish Earrings x"+earrings+"%0A";
+"Bracelet x "+bracelet+"<br><br>"+
+"Mobile Charms x "+charms+"<br><br>"+
+"Anti-Tarnish Earrings x "+earrings;
+
+}
+
+function openAddressPage(){
+
+document.getElementById("cartPage").style.display="none";
+
+document.getElementById("addressPage").style.display="block";
+
+}
+
+function openWhatsappPage(){
+
+document.getElementById("addressPage").style.display="none";
+
+document.getElementById("whatsappPage").style.display="block";
+
+}
+
+function sendWhatsappOrder(){
+
+let name=
+document.getElementById("customerName").value;
+
+let mobile=
+document.getElementById("customerMobile").value;
+
+let address=
+document.getElementById("customerAddress").value;
+
+let msg=
+"Hello Eska Jewellery%0A%0A"+
+"Name: "+name+"%0A"+
+"Mobile: "+mobile+"%0A"+
+"Address: "+address+"%0A%0A"+
+"Order:%0A"+
+"Bracelet x "+bracelet+"%0A"+
+"Mobile Charms x "+charms+"%0A"+
+"Anti-Tarnish Earrings x "+earrings;
 
 window.open(
 "https://wa.me/917039603907?text="+msg
 );
+
 }
+
+function zoomImage(img){
+
+document.getElementById("zoomBox").style.display=
+"flex";
+
+document.getElementById("zoomPhoto").src=img;
+
+}
+
+function closeZoom(){
+
+document.getElementById("zoomBox").style.display=
+"none";
+
+}
+
 </script>
 
 </body>
