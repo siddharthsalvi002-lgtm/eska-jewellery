@@ -132,8 +132,9 @@ max-width:500px;
 <p>Custom Design Available</p>
 
 <button class="buyBtn"
-onclick="window.open('https://wa.me/917039603907')">
-Contact On WhatsApp
+id="braceletBuy"
+onclick="buyProduct('braceletQty','bracelet','braceletBuy')">
+Purchase
 </button>
 </div>
 
@@ -146,18 +147,12 @@ onclick="zoomImage('bracelets.jpeg')">
 
 <p>₹30</p>
 
-<button class="buyBtn"
-onclick="showQty('braceletQty')">
-Purchase
-</button>
-
 <div class="qtyBox" id="braceletQty">
-
 <button onclick="changeQty('bracelet',-1)">-</button>
-
 <span id="bracelet">0</span>
-
 <button onclick="changeQty('bracelet',1)">+</button>
+
+<button onclick="removeProduct('bracelet','braceletQty','braceletBuy')">🗑️</button>
 
 </div>
 
@@ -185,8 +180,10 @@ Purchase
 
 <button onclick="changeQty('charms',1)">+</button>
 
+<button onclick="removeProduct('charms','charmsQty','charmsBuy')">🗑️</button>
+  
 </div>
-
+  
 </div>
 
 <div class="product">
@@ -211,7 +208,7 @@ Purchase
 
 <button onclick="changeQty('earrings',1)">+</button>
 
-</div>
+<button onclick="removeProduct('earrings','earringsQty','earringsBuy')">🗑️</button>
 
 </div>
 
@@ -387,7 +384,38 @@ document.getElementById("zoomPhoto").src=img;
 
 }
 
-function closeZoom(){
+function closeZoom(function buyProduct(qtyId,qtySpan,buyBtn){
+
+document.getElementById(qtyId).style.display="block";
+document.getElementById(buyBtn).style.display="none";
+
+document.getElementById(qtySpan).innerText=1;
+
+if(qtySpan=="bracelet") bracelet=1;
+if(qtySpan=="charms") charms=1;
+if(qtySpan=="earrings") earrings=1;
+
+document.getElementById("cartCount").innerText=
+bracelet+charms+earrings;
+
+}
+
+function removeProduct(qtySpan,qtyId,buyBtn){
+
+if(qtySpan=="bracelet") bracelet=0;
+if(qtySpan=="charms") charms=0;
+if(qtySpan=="earrings") earrings=0;
+
+document.getElementById(qtySpan).innerText=0;
+
+document.getElementById(qtyId).style.display="none";
+
+document.getElementById(buyBtn).style.display="inline-block";
+
+document.getElementById("cartCount").innerText=
+bracelet+charms+earrings;
+
+}
 
 document.getElementById("zoomBox").style.display=
 "none";
