@@ -332,8 +332,21 @@ document.getElementById("addressPage").style.display="block";
 
 function openWhatsappPage(){
 
-document.getElementById("addressPage").style.display="none";
+let name =
+document.getElementById("customerName").value.trim();
 
+let mobile =
+document.getElementById("customerMobile").value.trim();
+
+let address =
+document.getElementById("customerAddress").value.trim();
+
+if(name=="" || mobile=="" || address==""){
+alert("Please fill Name, Mobile Number and Address");
+return;
+}
+
+document.getElementById("addressPage").style.display="none";
 document.getElementById("whatsappPage").style.display="block";
 
 }
